@@ -2,8 +2,9 @@ const path = require('path')
 const fs = require('fs')
 
 const projectAbsolutePath = process.env.ProjectPath
-const SubFolder = process.env.SubFolder || 'sdkjs/word'
+const SubFolder = process.env.SubFolder || ''
 const subPath = path.resolve(`${projectAbsolutePath}`, SubFolder)
+const ignoreFolders = ['node_modules', 'dist'].concat(String(process.env.IgnoreFolders).split(',').filter(Boolean))
 
 const promises = []
 
@@ -20,6 +21,9 @@ if(fs.existsSync(subPath)) {
 }
 
 function readFile(filePath, fileName) {
+  if(ignoreFolders.includes(fileName)) {
+    return
+  }
   const filePathName = path.resolve(filePath, fileName)
   const isFileDirecgtory = fs.statSync(filePathName).isDirectory()
   if(isFileDirecgtory) {
