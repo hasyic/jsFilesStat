@@ -15,3 +15,11 @@ Drawing/documentrenderer.js(3530)
 Drawing/mobileTouchManager.js(821)
 ...
 ```
+
+### Options
+#### ProjectPath
+项目的绝对地址，必须参数，可以~开头
+#### SubFolder
+子目录的路径，默认为空
+#### IgnoreFolders
+忽略的文件夹，以','分隔，缺省值为node_modules和dist
