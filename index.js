@@ -7,6 +7,7 @@ const subPath = path.resolve(`${projectAbsolutePath}`, SubFolder)
 const ignoreFolders = ['node_modules', 'dist'].concat(String(process.env.IgnoreFolders).split(',').filter(Boolean))
 
 const promises = []
+let totalLine = 0
 
 if(fs.existsSync(subPath)) {
   const fileNames = fs.readdirSync(subPath)
@@ -15,6 +16,7 @@ if(fs.existsSync(subPath)) {
   })
   Promise.all(promises).then((arrResult)=>{
     console.log(arrResult.join('\n'))
+    console.log(`totalLine: ${totalLine}`)
   }).catch(console.log.bind(console))
 } else {
   console.log('files not exist, please check path: ', subPath)
@@ -60,7 +62,10 @@ function print(dir, file) {
     fs.createReadStream(fileAbsolutePath)
     .on('data', function(chunk) {
       for (i=0; i < chunk.length; ++i)
-        if (chunk[i] == 10) count++
+        if (chunk[i] == 10) {
+          count++
+          totalLine++
+        }
     })
     .on('end', function() {
       // console.log(`${item}'s lines: ${count}`)
